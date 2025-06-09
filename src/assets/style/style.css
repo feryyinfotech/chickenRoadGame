@@ -1,0 +1,54 @@
+.fcend {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.custom-toast {
+  min-width: 120px !important;
+  color: white !important;
+  background: #000000;
+  padding: 12px !important;
+}
+
+.custom-toast > div {
+  color: white;
+}
+
+.custom-toast > svg > path {
+  color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #92a8e3 !important;
+  /* Keep your text color */
+  transition: background-color 5000s ease-in-out 0s !important;
+  /* Prevent autofill flash */
+  box-shadow: 0 0 0px 1000px #011341 inset !important;
+}
+.abcd {
+  position: relative;
+}
+.abcd::before {
+  content: '';
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  background: #05012a;
+  border-radius: 50%;
+  top: 54%;
+  left: -2.5%;
+}
+.abcd::after {
+  content: '';
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  background: #05012a;
+  border-radius: 50%;
+  top: 54%;
+  right: -2.5%;
+}
