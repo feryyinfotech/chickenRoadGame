@@ -1,18 +1,18 @@
-export const domain = "https://zupeeterwintimer.onrender.com";
-// export const game_domain = "http://192.168.18.214:9025";
+export const domain = 'https://zupeeterwintimer.onrender.com';
+// export const game_domain = 'http://192.168.18.214:9025';
 
-export const aviatordomain = "https://zupeeterwintimer.onrender.com";
+export const aviatordomain = 'https://zupeeterwintimer.onrender.com';
 
-export const game_domain = "https://tahalkagame.com";
-export const project_name = "Tahalka Game";
+export const game_domain = 'https://tahalkagame.com';
+export const project_name = 'Tahalka Game';
 
-export const rupees = "₹";
-export const zubgback = "#00ECBE";
-export const front_end_domain = "https://tahalkagame.com";
-export const telegram_app_url = "https://t.me/lottery11official";
-export const support_app_url = "https://t.me/Lottery11support";
+export const rupees = '₹';
+export const zubgback = '#00ECBE';
+export const front_end_domain = 'https://tahalkagame.com';
+export const telegram_app_url = 'https://t.me/lottery11official';
+export const support_app_url = 'https://t.me/Lottery11support';
 export const tokenContractAddress =
-  "0x79E952d542D2BdD7eb77446ECaeFd8fe8eeEd6e2";
+  '0x79E952d542D2BdD7eb77446ECaeFd8fe8eeEd6e2';
 
 export const endpoint = {
   get_all_income: `${game_domain}/api/v1/get-all-income-by-user`,
@@ -119,44 +119,47 @@ export const endpoint = {
     get_top_users: `${domain}/api/v1/get-top-users`,
   },
   token_data: {
-    main_wallet: "",
+    main_wallet: '',
   },
 
   node: {
-    top_two_winners: game_domain + "/api/v1/getTopTwo_winner",
-    top_winners: game_domain + "/api/v1/getTopWinners",
-    history_my: game_domain + "/api/v1/getMyHistory-roulette",
-    game_result: game_domain + "/api/v1/getRouletteGameHistory",
-    bet_satta: game_domain + "/api/v1/betPlacedSatta",
-    satta_game_Lastfour: game_domain + "/api/v1/getSattaGameHistoryLastFour",
-    satta_game_gamehistory: game_domain + "/api/v1/getSattaGameHistory",
-    satta_game_myhistory: game_domain + "/api/v1/getSattaMyHistory",
-    getStatusSattaMatka: game_domain + "/api/v1/getStatusSattaMatka",
-    referral_bonus: game_domain + "/api/v1/getReferralBonus",
-    level_income: game_domain + "/api/v1/getLevelIncome",
-    cashback_income: game_domain + "/api/v1/cash-back-income",
-    get_bank_list: game_domain + "/api/v1/get-bank-Details",
-    get_upi_list: game_domain + "/api/v1/get-upi-details",
-    deposite_request: game_domain + "/api/v1/payin-request",
-    withdraw_payment: game_domain + "/api/v1/payout-request",
-    add_bank: game_domain + "/api/v1/add-bank-upi",
+    top_two_winners: game_domain + '/api/v1/getTopTwo_winner',
+    top_winners: game_domain + '/api/v1/getTopWinners',
+    history_my: game_domain + '/api/v1/getMyHistory-roulette',
+    game_result: game_domain + '/api/v1/getRouletteGameHistory',
+    bet_satta: game_domain + '/api/v1/betPlacedSatta',
+    satta_game_Lastfour: game_domain + '/api/v1/getSattaGameHistoryLastFour',
+    satta_game_gamehistory: game_domain + '/api/v1/getSattaGameHistory',
+    satta_game_myhistory: game_domain + '/api/v1/getSattaMyHistory',
+    getStatusSattaMatka: game_domain + '/api/v1/getStatusSattaMatka',
+    referral_bonus: game_domain + '/api/v1/getReferralBonus',
+    level_income: game_domain + '/api/v1/getLevelIncome',
+    cashback_income: game_domain + '/api/v1/cash-back-income',
+    get_bank_list: game_domain + '/api/v1/get-bank-Details',
+    get_upi_list: game_domain + '/api/v1/get-upi-details',
+    deposite_request: game_domain + '/api/v1/payin-request',
+    withdraw_payment: game_domain + '/api/v1/payout-request',
+    add_bank: game_domain + '/api/v1/add-bank-upi',
     // bank_details: game_domain + "/api/v1/user-bank-details",
-    withdrawl_history: game_domain + "/api/v1/withdrawal-history",
-    deposit_history: game_domain + "/api/v1/deposit-history",
+    withdrawl_history: game_domain + '/api/v1/withdrawal-history',
+    deposit_history: game_domain + '/api/v1/deposit-history',
     inr_call_back_check:
-      game_domain + "/api/v1/inr-payin-request-inr-call-back-manual",
+      game_domain + '/api/v1/inr-payin-request-inr-call-back-manual',
   },
 
   rollet: {
-    bet_now: game_domain + "/api/v1/betPlacedRoulette",
+    bet_now: game_domain + '/api/v1/betPlacedRoulette',
   },
 
   jili_api: {
-    game_list: game_domain + "/jilli/v1/get-all-game-list",
-    game_urls: game_domain + "/jilli/v1/get-game-urls",
-    jilli_user_info: game_domain + "/jilli/v1/get-jilli-user-info",
-    main_wallet_to_jilli_wallet: game_domain + "/jilli/v1/add-wallet-to-user",
-    jili_wallet_api: game_domain + "/jilli/v1/add-wallet-to-user",
-    jili_to_main_api: game_domain + "/jilli/v1/transfer-jilli-to-main",
+    game_list: game_domain + '/jilli/v1/get-all-game-list',
+    game_urls: game_domain + '/jilli/v1/get-game-urls',
+    jilli_user_info: game_domain + '/jilli/v1/get-jilli-user-info',
+    main_wallet_to_jilli_wallet: game_domain + '/jilli/v1/add-wallet-to-user',
+    jili_wallet_api: game_domain + '/jilli/v1/add-wallet-to-user',
+    jili_to_main_api: game_domain + '/jilli/v1/transfer-jilli-to-main',
+  },
+  chickenroad_api: {
+    place_bet: `${game_domain}/api/v1/chicken-road-place-bet`,
   },
 };

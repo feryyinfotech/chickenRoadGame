@@ -46,6 +46,10 @@ import {
   isEnableMusicFunction,
   isEnableSoundFunction,
 } from '../../redux/slices/counterSlice';
+import { useQuery } from 'react-query';
+import { apiConnectorGet } from '../../services/apiconnector';
+import { endpoint } from '../../services/urls';
+import CustomCircularProgress from '../../shared/loder/CustomCircularProgress';
 
 const Chickenroad = () => {
   const [selected, setSelected] = useState('Easy');
@@ -180,6 +184,8 @@ const Chickenroad = () => {
     try {
       if (audioRefBg.current && isEnableMusicChickenG) {
         await audioRefBg.current.play();
+      } else {
+        audioRefBg.current.pause();
       }
     } catch (err) {
       console.error('Failed to play audio:', err);
@@ -188,14 +194,34 @@ const Chickenroad = () => {
 
   useEffect(() => {
     if (isBurned) {
-      audioRefHen.current?.play().catch((e) => {
-        console.log('Autoplay blocked or failed:', e);
-      });
+      if (isEnableSoundChickenG) {
+        audioRefHen.current.play().catch((e) => {
+          console.log('Autoplay blocked or failed:', e);
+        });
+      } else {
+        audioRefHen.current.pause();
+        audioRefHen.current.currentTime = 0;
+      }
+      dispatch(isEnableMusicFunction());
     }
-  }, [isBurned]);
+  }, [isBurned, isEnableSoundChickenG, dispatch]);
+
+  const { isLoading, data: wallet_amount } = useQuery(
+    ['wallet_amount_amount'],
+    () => apiConnectorGet(endpoint.get_balance),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const wallet_amount_data = wallet_amount?.data?.data || 0;
 
   return (
     <Container className="h-full overflow-auto bg-[#05012B]">
+      <CustomCircularProgress isLoading={isLoading} />
       <audio ref={audioRefBg} src={musicFile3} />
       <audio ref={audioRefHen} src={musicFile4} />
       <div className="bg-[#4E5164] p-3 flex items-center justify-between">
@@ -206,7 +232,9 @@ const Chickenroad = () => {
           </p>
         </div>
         <div className="flex items-center bg-[#4E5164] rounded-md px-4 py-1">
-          <p className="text-white text-sm font-medium mr-2">7.28</p>
+          <p className="text-white text-sm font-medium mr-2">
+            {wallet_amount_data?.wallet}
+          </p>
           <div className="bg-white h-6 w-6 rounded-full flex items-center justify-center text-black text-sm font-bold">
             $
           </div>
@@ -673,7 +701,7 @@ const Chickenroad = () => {
                                 alt="chicken"
                                 className={`absolute -top-[6.2rem] left-1/2 -translate-x-1/2 w-[75px] h-[70px] z-50 min-w-[235px] min-h-[138px]  ${
                                   isBurned
-                                    ? 'min-w-[120px] min-h-[130px] -top-[5.2rem]'
+                                    ? 'min-w-[100px] min-h-[130px] -top-[5.2rem]'
                                     : ''
                                 }`}
                               />
@@ -702,6 +730,7 @@ const Chickenroad = () => {
       <img src={src} alt="" className="w-[100%] h-7 pt-1" />
       <Footer
         gameStarted={gameStarted}
+        handleResetGame={handleResetGame}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setSelected={setSelected}

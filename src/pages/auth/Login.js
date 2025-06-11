@@ -581,8 +581,8 @@ function Login() {
         </Box>
         <Box sx={{ width: '80%', margin: 'auto', mt: 3 }}>
           <Button
-            //  onClick={() => fk.handleSubmit()}
-            onClick={() => navigate('/chickenroad')}
+            onClick={() => fk.handleSubmit()}
+            // onClick={() => navigate('/chickenroad')}
             sx={{
               padding: '6px',
               width: '100%',

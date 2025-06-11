@@ -5,9 +5,16 @@ import musicFile from '../../assets/images/chickenRoad/Step1.mp3';
 import musicFile2 from '../../assets/images/chickenRoad/coin.mp3';
 import { useSelector } from 'react-redux';
 import { IoMdCheckmark } from 'react-icons/io';
+import CustomCircularProgress from '../../shared/loder/CustomCircularProgress';
+import { apiConnectorPost } from '../../services/apiconnector';
+import { endpoint } from '../../services/urls';
+import { enCryptData } from '../../shared/secret';
+import toast from 'react-hot-toast';
+import { chicken_coin_amount } from '../../shared/JsonData';
 
 const Footer = ({
   setIsOpen,
+  handleResetGame,
   isOpen,
   gameStarted,
   selected,
@@ -25,6 +32,7 @@ const Footer = ({
   scrollRef,
 }) => {
   const [amount, setamount] = useState(0.06);
+  const [loading, setLoading] = useState(false);
   const difficulties = ['Easy', 'Medium', 'Hard', 'Hardcore'];
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -43,6 +51,15 @@ const Footer = ({
       console.error('Failed to play audio:', err);
     }
     setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false);
+      setIsReturning(true);
+      setChickenIndex(-1);
+      setTimeout(() => {
+        handleResetGame();
+      }, 500);
+    }, 500);
   };
   const handleAmpount = (value) => {
     setamount(value);
@@ -104,8 +121,42 @@ const Footer = ({
     setVisitedIndexes([0]);
   };
 
+  const play_funct = async () => {
+    setLoading(true);
+    const reqbody = {
+      bt_amount: amount,
+      d_diff_level: selected === 'Easy' ? 1 : selected === 'Medium' ? 2 : 3,
+      bet_type: 1,
+      bet_multiplier: 0,
+    };
+    const play_data = enCryptData(reqbody);
+    try {
+      const response = await apiConnectorPost(
+        endpoint?.chickenroad_api?.place_bet,
+        {
+          payload: play_data,
+        }
+      );
+      toast(response?.data?.msg);
+      // console.log(response);
+    } catch (e) {
+      console.log(e?.message || 'An error occurred');
+    }
+    setLoading(false);
+  };
+  // const chicken_coinamnt = chicken_coin_amount.find(
+  //   (i) => i.index === chickenIndex
+  // ).coinAmount;
+  // console.log(chicken_coinamnt);
+  let chicken_coinamnt = 0;
+  if (chickenIndex !== null) {
+    const coinData = chicken_coin_amount.find((i) => i.index === chickenIndex);
+    chicken_coinamnt = coinData?.coinAmount;
+  }
+  console.log(chicken_coinamnt, chickenIndex);
   return (
     <div>
+      <CustomCircularProgress />
       <div className="p-3 m-4 bg-[#3A3C51] rounded-2xl">
         <div className="flex justify-between p-2 bg-[#4E4F61] rounded-md items-center mb-2">
           <span
@@ -118,13 +169,17 @@ const Footer = ({
             className="text-white bg-[#4E4F61] text-center w-[150px]"
             type="text"
             value={amount}
-            onChange={(e) =>
-              setamount(parseFloat(e.target.value)) || setamount()
-            }
+            onChange={(e) => {
+              const newValue = e.target.value;
+              // parseFloat(e.target.value);
+              // if (!isNaN(newValue)) {
+              setamount(newValue <= 0 ? '' : newValue);
+              // }
+            }}
           />
           <span
             className="bg-[#606173] px-2 py-1 rounded !text-white font-semibold"
-            onClick={() => handleAmpount(7.28)}
+            onClick={() => handleAmpount(150)}
           >
             MAX
           </span>
@@ -210,7 +265,10 @@ const Footer = ({
             <div>
               <button
                 className="w-full bg-green-500 text-white font-bold py-3 rounded-xl text-lg"
-                onClick={handlePlay}
+                onClick={() => {
+                  handlePlay();
+                  play_funct();
+                }}
               >
                 Play
               </button>
@@ -234,7 +292,7 @@ const Footer = ({
                   <div className="flex flex-col items-center justify-center px-6 py-4 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 shadow-md">
                     <p className="text-white text-lg font-semibold">WIN!</p>
                     <p className="text-3xl text-yellow-400 font-bold mt-1">
-                      x1.03
+                      1.03
                     </p>
                     <div className="flex items-center mt-1">
                       <p className="text-green-400 text-lg font-semibold">
