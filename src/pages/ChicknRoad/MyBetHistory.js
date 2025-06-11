@@ -9,17 +9,28 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import CustomCircularProgress from '../../shared/loder/CustomCircularProgress';
-const betHistory = [
-  { time: '22:17', bet: 0.5, mult: 2.04, win: 1.02 },
-  { time: '22:16', bet: 0.5, mult: 1.88, win: 0.94 },
-  { time: '22:15', bet: 0.5, mult: 1.63, win: 0.81 },
-  { time: '22:15', bet: 0.5, mult: 3.5, win: 1.75 },
-];
+import { apiConnectorGet } from '../../services/apiconnector';
+import { endpoint } from '../../services/urls';
+import { useQuery } from 'react-query';
+import moment from 'moment';
 
 const MyBetHistory = ({ betHistoryOpen, setBetHistoryOpen }) => {
+  const { isbetLoading, data: betHistory } = useQuery(
+    ['bet_History'],
+    () => apiConnectorGet(endpoint?.chickenroad_api?.bet_history),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const bethistory = betHistory?.data?.data;
+  console.log(bethistory);
   return (
     <>
-      <CustomCircularProgress />
+      <CustomCircularProgress isLoading={isbetLoading} />
       <Dialog
         open={betHistoryOpen}
         onClose={() => setBetHistoryOpen(false)}
@@ -52,13 +63,12 @@ const MyBetHistory = ({ betHistoryOpen, setBetHistoryOpen }) => {
             color: 'white',
             fontSize: '1.2rem',
           }}
+          onClick={() => {
+            setBetHistoryOpen(false);
+          }}
         >
           My bet history
-          <IconButton
-            onClick={() => setBetHistoryOpen(false)}
-            sx={{ color: 'white' }}
-            size="small"
-          >
+          <IconButton sx={{ color: 'white' }} size="small">
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -71,28 +81,31 @@ const MyBetHistory = ({ betHistoryOpen, setBetHistoryOpen }) => {
             <p>Win</p>
             <p></p>
           </div>
-
-          <div className=" overflow-y-auto mt-2">
-            {betHistory.map((bet, index) => (
+          <div
+            className=" overflow-y-auto mt-2"
+            style={{ maxHeight: '9.5rem' }}
+            custom-scrollbar
+          >
+            {bethistory?.map((bet, index) => (
               <div
                 key={index}
                 className="grid grid-cols-5 items-center text-sm py-2 border-b border-gray-700"
               >
-                <p>{bet.time}</p>
+                <p>{moment(bet.datetime).format('HH:mm')}</p>
                 <div className="flex items-center gap-1">
                   <span className="bg-white text-black text-xs w-4 h-4 rounded-full flex items-center justify-center">
                     $
                   </span>
-                  <span>{bet.bet}</span>
+                  <span>{Number(bet.amount).toFixed(2)}</span>
                 </div>
                 <span className="bg-[#333446] px-2 py-1 rounded text-white text-xs">
-                  x{bet.mult}
+                  x{Number(bet.multiplier).toFixed(2)}
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="bg-white text-black text-xs w-4 h-4 rounded-full flex items-center justify-center">
                     $
                   </span>
-                  <span>{bet.win}</span>
+                  <span>{Number(bet.win).toFixed(2)}</span>
                 </div>
                 <BeenhereIcon
                   sx={{

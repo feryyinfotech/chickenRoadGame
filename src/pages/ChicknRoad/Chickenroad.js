@@ -20,7 +20,17 @@ import yellowimg from '../../assets/images/chickenRoad/yellowimg2.png';
 import chicken from '../../assets/images/chickenRoad/chicken2.png';
 import chickencoin from '../../assets/images/chickenRoad/chickencoin2.png';
 import gbflag from '../../assets/images/ukflag.png';
-import { imagelist, avatars, greenimagelist } from './chicken road images';
+import {
+  imagelist,
+  avatars,
+  greenimagelist,
+  mdimagelist,
+  hardimageList,
+  hDimageList,
+  mdgreenimagelist,
+  hardgreenimagelist,
+  hdgreenimagelist,
+} from './chicken road images';
 import inoutlogo from '../../assets/images/chickenRoad/inoutlogo.svg';
 import burnedChicken from '../../assets/images/burnedChicken.png';
 import PersonIcon from '@mui/icons-material/Person';
@@ -46,12 +56,13 @@ import {
   isEnableMusicFunction,
   isEnableSoundFunction,
 } from '../../redux/slices/counterSlice';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { apiConnectorGet } from '../../services/apiconnector';
 import { endpoint } from '../../services/urls';
 import CustomCircularProgress from '../../shared/loder/CustomCircularProgress';
 
 const Chickenroad = () => {
+  const queryClient = useQueryClient();
   const [selected, setSelected] = useState('Easy');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [gameRuleOpen, setRuleOpen] = useState(false);
@@ -72,6 +83,24 @@ const Chickenroad = () => {
   const dispatch = useDispatch();
   const audioRefBg = useRef(null);
   const audioRefHen = useRef(null);
+
+  const currentList =
+    selected === 'Easy'
+      ? imagelist
+      : selected === 'Medium'
+      ? mdimagelist
+      : selected === 'Hard'
+      ? hardimageList
+      : hDimageList;
+
+  const currentGreenList =
+    selected === 'Easy'
+      ? greenimagelist
+      : selected === 'Medium'
+      ? mdgreenimagelist
+      : selected === 'Hard'
+      ? hardgreenimagelist
+      : hdgreenimagelist;
 
   const isEnableSoundChickenG = useSelector(
     (state) => state.aviator.isEnableSoundChickenG
@@ -233,7 +262,8 @@ const Chickenroad = () => {
         </div>
         <div className="flex items-center bg-[#4E5164] rounded-md px-4 py-1">
           <p className="text-white text-sm font-medium mr-2">
-            {wallet_amount_data?.wallet}
+            {Number(wallet_amount_data?.wallet || 0) +
+              Number(wallet_amount_data?.winning || 0)}
           </p>
           <div className="bg-white h-6 w-6 rounded-full flex items-center justify-center text-black text-sm font-bold">
             $
@@ -507,7 +537,10 @@ const Chickenroad = () => {
             <PiClockClockwise fontSize="small" />
             <sapn
               className="!text-white hover:!text-[#15803d]"
-              onClick={() => setBetHistoryOpen(true)}
+              onClick={() => {
+                queryClient.refetchQueries('bet_History');
+                setBetHistoryOpen(true);
+              }}
             >
               My bet history
             </sapn>
@@ -598,8 +631,8 @@ const Chickenroad = () => {
           </div>
         </div>
         <div ref={scrollRef} className="flex  scroll-smooth">
-          {imagelist.map((src, index) => {
-            const isLast = index === imagelist.length - 1;
+          {currentList?.map((src, index) => {
+            const isLast = index === currentList.length - 1;
             const isVisited = visitedIndexes.includes(index);
             const isPrevVisited = visitedIndexes.includes(index + 1);
             const isBurningIndex = isBurned && chickenIndex === index;
@@ -608,8 +641,8 @@ const Chickenroad = () => {
               : isPrevVisited
               ? chickencoin
               : isVisited
-              ? greenimagelist[index]
-              : imagelist[index];
+              ? currentGreenList[index]
+              : currentList[index];
             if (isLast) {
               return (
                 <React.Fragment key={index}>

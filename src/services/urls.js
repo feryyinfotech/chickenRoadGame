@@ -1,9 +1,9 @@
 export const domain = 'https://zupeeterwintimer.onrender.com';
-// export const game_domain = 'http://192.168.18.214:9025';
+export const game_domain = 'http://192.168.18.214:9025';
 
 export const aviatordomain = 'https://zupeeterwintimer.onrender.com';
 
-export const game_domain = 'https://tahalkagame.com';
+// export const game_domain = 'https://tahalkagame.com';
 export const project_name = 'Tahalka Game';
 
 export const rupees = '₹';
@@ -161,5 +161,6 @@ export const endpoint = {
   },
   chickenroad_api: {
     place_bet: `${game_domain}/api/v1/chicken-road-place-bet`,
+    bet_history: `${game_domain}/api/v1/chicken-road-betting-history`,
   },
 };

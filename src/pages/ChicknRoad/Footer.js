@@ -11,6 +11,7 @@ import { endpoint } from '../../services/urls';
 import { enCryptData } from '../../shared/secret';
 import toast from 'react-hot-toast';
 import { chicken_coin_amount } from '../../shared/JsonData';
+import { useQueryClient } from 'react-query';
 
 const Footer = ({
   setIsOpen,
@@ -38,6 +39,7 @@ const Footer = ({
   const handleClose = () => setOpen(false);
   const audioRef = useRef(null);
   const audioRefcoinmusic = useRef(null);
+  const queryClient = useQueryClient();
   const isEnableSoundChickenG = useSelector(
     (state) => state.aviator.isEnableSoundChickenG
   );
@@ -121,7 +123,7 @@ const Footer = ({
     setVisitedIndexes([0]);
   };
 
-  const play_funct = async () => {
+  const placeBet_funct = async () => {
     setLoading(true);
     const reqbody = {
       bt_amount: amount,
@@ -138,22 +140,49 @@ const Footer = ({
         }
       );
       toast(response?.data?.msg);
-      // console.log(response);
+      queryClient.refetchQueries('wallet_amount_amount');
     } catch (e) {
       console.log(e?.message || 'An error occurred');
     }
     setLoading(false);
   };
+  const cashout_fun = async () => {
+    setLoading(true);
+    const reqbody = {
+      bt_amount: 0,
+      d_diff_level: selected === 'Easy' ? 1 : selected === 'Medium' ? 2 : 3,
+      bet_type: 2,
+      bet_multiplier: chicken_coin_amount.find((i) => i.index === chickenIndex)
+        ?.coinAmount,
+    };
+    const play_data = enCryptData(reqbody);
+    try {
+      const response = await apiConnectorPost(
+        endpoint?.chickenroad_api?.place_bet,
+        {
+          payload: play_data,
+        }
+      );
+      toast(response?.data?.msg);
+      queryClient.refetchQueries('wallet_amount_amount');
+    } catch (e) {
+      console.log(e?.message || 'An error occurred');
+    }
+    setLoading(false);
+  };
+
   // const chicken_coinamnt = chicken_coin_amount.find(
   //   (i) => i.index === chickenIndex
   // ).coinAmount;
   // console.log(chicken_coinamnt);
-  let chicken_coinamnt = 0;
-  if (chickenIndex !== null) {
-    const coinData = chicken_coin_amount.find((i) => i.index === chickenIndex);
-    chicken_coinamnt = coinData?.coinAmount;
-  }
-  console.log(chicken_coinamnt, chickenIndex);
+  // let chicken_coinamnt = 0;
+  // if (chickenIndex !== null) {
+  //   const coinData = chicken_coin_amount.find(
+  //     (i) => i.index === chickenIndex
+  //   )?.coinAmount;
+  //   chicken_coinamnt = coinData?.coinAmount;
+  // }
+  // console.log(chicken_coinamnt, chickenIndex);
   return (
     <div>
       <CustomCircularProgress />
@@ -267,7 +296,7 @@ const Footer = ({
                 className="w-full bg-green-500 text-white font-bold py-3 rounded-xl text-lg"
                 onClick={() => {
                   handlePlay();
-                  play_funct();
+                  placeBet_funct();
                 }}
               >
                 Play
@@ -278,9 +307,14 @@ const Footer = ({
               <audio ref={audioRefcoinmusic} src={musicFile2} />
               <button
                 className="flex-1 bg-yellow-500 text-black font-semibold py-5 px-4 rounded-xl text-sm"
-                onClick={handleOpen}
+                onClick={() => (handleOpen(), cashout_fun())}
               >
-                Cash out 0.67 USD
+                Cash out <br />
+                {(
+                  chicken_coin_amount.find((i) => i.index === chickenIndex)
+                    ?.coinAmount * amount
+                ).toFixed(3)}{' '}
+                USD
               </button>
               <Modal
                 open={open}
@@ -292,11 +326,18 @@ const Footer = ({
                   <div className="flex flex-col items-center justify-center px-6 py-4 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 shadow-md">
                     <p className="text-white text-lg font-semibold">WIN!</p>
                     <p className="text-3xl text-yellow-400 font-bold mt-1">
-                      1.03
+                      {chicken_coin_amount
+                        .find((i) => i.index === chickenIndex)
+                        ?.coinAmount.toFixed(2)}
                     </p>
                     <div className="flex items-center mt-1">
                       <p className="text-green-400 text-lg font-semibold">
-                        + 0.01
+                        +{' '}
+                        {(
+                          chicken_coin_amount.find(
+                            (i) => i.index === chickenIndex
+                          )?.coinAmount * amount
+                        ).toFixed(3)}
                       </p>
                       <span className="text-green-400 text-lg ml-1">$</span>
                     </div>
