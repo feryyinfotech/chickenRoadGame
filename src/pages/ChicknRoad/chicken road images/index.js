@@ -115,6 +115,60 @@ import coinHD14 from '../../../assets/images/chickenRoad/coinHD14.png';
 import wincoinH from '../../../assets/images/chickenRoad/wincoinH.png';
 import wincoinHd from '../../../assets/images/chickenRoad/wincoinHd.png';
 import wincoinmd from '../../../assets/images/chickenRoad/wincoinmd.png';
+import mdGcoin1 from '../../../assets/images/chickenRoad/mdGcoin1.png';
+import mdGcoin2 from '../../../assets/images/chickenRoad/mdGcoin2.png';
+import mdGcoin3 from '../../../assets/images/chickenRoad/mdGcoin3.png';
+import mdGcoin4 from '../../../assets/images/chickenRoad/mdGcoin4.png';
+import mdGcoin5 from '../../../assets/images/chickenRoad/mdGcoin5.png';
+import mdGcoin6 from '../../../assets/images/chickenRoad/mdGcoin6.png';
+import mdGcoin7 from '../../../assets/images/chickenRoad/mdGcoin7.png';
+import mdGcoin8 from '../../../assets/images/chickenRoad/mdGcoin8.png';
+import mdGcoin9 from '../../../assets/images/chickenRoad/mdGcoin9.png';
+import mdGcoin10 from '../../../assets/images/chickenRoad/mdGcoin10.png';
+import mdGcoin11 from '../../../assets/images/chickenRoad/mdGcoin11.png';
+import mdGcoin12 from '../../../assets/images/chickenRoad/mdGcoin12.png';
+import mdGcoin13 from '../../../assets/images/chickenRoad/mdGcoin13.png';
+import mdGcoin14 from '../../../assets/images/chickenRoad/mdGcoin14.png';
+import mdGcoin15 from '../../../assets/images/chickenRoad/mdGcoin15.png';
+import mdGcoin16 from '../../../assets/images/chickenRoad/mdGcoin16.png';
+import mdGcoin17 from '../../../assets/images/chickenRoad/mdGcoin17.png';
+import mdGcoin18 from '../../../assets/images/chickenRoad/mdGcoin18.png';
+import mdGcoin19 from '../../../assets/images/chickenRoad/mdGcoin19.png';
+import mdGcoin20 from '../../../assets/images/chickenRoad/mdGcoin20.png';
+import mdGcoin21 from '../../../assets/images/chickenRoad/mdGcoin21.png';
+import HGcoin1 from '../../../assets/images/chickenRoad/HGcoin1.png';
+import HGcoin2 from '../../../assets/images/chickenRoad/HGcoin2.png';
+import HGcoin3 from '../../../assets/images/chickenRoad/HGcoin3.png';
+import HGcoin4 from '../../../assets/images/chickenRoad/HGcoin4.png';
+import HGcoin5 from '../../../assets/images/chickenRoad/HGcoin5.png';
+import HGcoin6 from '../../../assets/images/chickenRoad/HGcoin6.png';
+import HGcoin7 from '../../../assets/images/chickenRoad/HGcoin7.png';
+import HGcoin8 from '../../../assets/images/chickenRoad/HGcoin8.png';
+import HGcoin9 from '../../../assets/images/chickenRoad/HGcoin9.png';
+import HGcoin10 from '../../../assets/images/chickenRoad/HGcoin10.png';
+import HGcoin11 from '../../../assets/images/chickenRoad/HGcoin11.png';
+import HGcoin12 from '../../../assets/images/chickenRoad/HGcoin12.png';
+import HGcoin13 from '../../../assets/images/chickenRoad/HGcoin13.png';
+import HGcoin14 from '../../../assets/images/chickenRoad/HGcoin14.png';
+import HGcoin15 from '../../../assets/images/chickenRoad/HGcoin15.png';
+import HGcoin16 from '../../../assets/images/chickenRoad/HGcoin16.png';
+import HGcoin17 from '../../../assets/images/chickenRoad/HGcoin17.png';
+import HGcoin18 from '../../../assets/images/chickenRoad/HGcoin18.png';
+import HGcoin19 from '../../../assets/images/chickenRoad/HGcoin19.png';
+import HdGcoin1 from '../../../assets/images/chickenRoad/HdGcoin1.png';
+import HdGcoin2 from '../../../assets/images/chickenRoad/HdGcoin2.png';
+import HdGcoin3 from '../../../assets/images/chickenRoad/HdGcoin3.png';
+import HdGcoin4 from '../../../assets/images/chickenRoad/HdGcoin4.png';
+import HdGcoin5 from '../../../assets/images/chickenRoad/HdGcoin5.png';
+import HdGcoin6 from '../../../assets/images/chickenRoad/HdGcoin6.png';
+import HdGcoin7 from '../../../assets/images/chickenRoad/HdGcoin7.png';
+import HdGcoin8 from '../../../assets/images/chickenRoad/HdGcoin8.png';
+import HdGcoin9 from '../../../assets/images/chickenRoad/HdGcoin9.png';
+import HdGcoin10 from '../../../assets/images/chickenRoad/HdGcoin10.png';
+import HdGcoin11 from '../../../assets/images/chickenRoad/HdGcoin11.png';
+import HdGcoin12 from '../../../assets/images/chickenRoad/HdGcoin12.png';
+import HdGcoin13 from '../../../assets/images/chickenRoad/HdGcoin13.png';
+import HdGcoin14 from '../../../assets/images/chickenRoad/HdGcoin14.png';
 
 export const imagelist = [
   coin1,
@@ -248,6 +302,66 @@ export const hDimageList = [
   wincoinHd,
 ];
 
-export const mdgreenimagelist = [];
-export const hardgreenimagelist = [];
-export const hdgreenimagelist = [];
+export const mdgreenimagelist = [
+  mdGcoin1,
+  mdGcoin2,
+  mdGcoin3,
+  mdGcoin4,
+  mdGcoin5,
+  mdGcoin6,
+  mdGcoin7,
+  mdGcoin8,
+  mdGcoin9,
+  mdGcoin10,
+  mdGcoin11,
+  mdGcoin12,
+  mdGcoin13,
+  mdGcoin14,
+  mdGcoin15,
+  mdGcoin16,
+  mdGcoin17,
+  mdGcoin18,
+  mdGcoin19,
+  mdGcoin20,
+  mdGcoin21,
+  wincoinmd,
+];
+export const hardgreenimagelist = [
+  HGcoin1,
+  HGcoin2,
+  HGcoin3,
+  HGcoin4,
+  HGcoin5,
+  HGcoin6,
+  HGcoin7,
+  HGcoin8,
+  HGcoin9,
+  HGcoin10,
+  HGcoin11,
+  HGcoin12,
+  HGcoin13,
+  HGcoin14,
+  HGcoin15,
+  HGcoin16,
+  HGcoin17,
+  HGcoin18,
+  HGcoin19,
+  wincoinH,
+];
+export const hdgreenimagelist = [
+  HdGcoin1,
+  HdGcoin2,
+  HdGcoin3,
+  HdGcoin4,
+  HdGcoin5,
+  HdGcoin6,
+  HdGcoin7,
+  HdGcoin8,
+  HdGcoin9,
+  HdGcoin10,
+  HdGcoin11,
+  HdGcoin12,
+  HdGcoin13,
+  HdGcoin14,
+  wincoinHd,
+];
