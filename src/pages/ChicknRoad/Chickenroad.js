@@ -750,7 +750,7 @@ const Chickenroad = () => {
                     <img
                       src={fireGif}
                       alt="fire"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[70px] z-50"
+                      className="absolute -bottom-3 left-1/2 -translate-x-1/2 !w-[120px] !h-[380px] z-50"
                     />
                   )}
                   <div className="absolute top-0 bottom-0 right-0 w-[4px] bg-[radial-gradient(circle,_white_4px,_transparent_4px)] bg-repeat-y bg-[length:100%_20px] opacity-70"></div>
