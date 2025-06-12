@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import yellowimg from '../../assets/images/chickenRoad/yellowimg2.png';
-import chicken from '../../assets/images/chickenRoad/chicken2.png';
+import chicken from '../../assets/images/chickenRoad/chickengif.gif';
 import chickencoin from '../../assets/images/chickenRoad/chickencoin2.png';
 import gbflag from '../../assets/images/ukflag.png';
 import {
@@ -34,7 +34,8 @@ import {
 import inoutlogo from '../../assets/images/chickenRoad/inoutlogo.svg';
 import burnedChicken from '../../assets/images/burnedChicken.png';
 import PersonIcon from '@mui/icons-material/Person';
-import fireGif from '../../assets/images/chickenRoad/Animation.gif';
+import fireGif from '../../assets/images/chickenRoad/fireGif.gif';
+import smallfire from '../../assets/images/chickenRoad/smallfire.gif';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { PiClockClockwise } from 'react-icons/pi';
@@ -48,6 +49,7 @@ import MyBetHistory from './MyBetHistory';
 import Instruction from './Instruction';
 import Footer from './Footer';
 import redcoin from '../../assets/images/chickenRoad/redcoin.png';
+import wall from '../../assets/images/chickenRoad/wall.png';
 import src from '../../assets/images/chickenRoad/src.png';
 import musicFile3 from '../../assets/images/chickenRoad/bgmusic.mp3';
 import musicFile4 from '../../assets/images/chickenRoad/henaudio.mp3';
@@ -71,6 +73,7 @@ const Chickenroad = () => {
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState();
   const [fireIndex, setFireIndex] = useState(null);
+  const [smallFireIndex, setSmallFireIndex] = useState(null);
   const [isBurned, setIsBurned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -122,7 +125,6 @@ const Chickenroad = () => {
     const updateVisibleCount = () => {
       setVisibleCount(window.innerWidth < 768 ? 2 : 5);
     };
-
     updateVisibleCount();
     window.addEventListener('resize', updateVisibleCount);
     return () => window.removeEventListener('resize', updateVisibleCount);
@@ -131,16 +133,14 @@ const Chickenroad = () => {
   useEffect(() => {
     const updateFireIndex = () => {
       if (!scrollRef.current) return;
-
       const scrollLeft = scrollRef.current.scrollLeft;
       const containerWidth = scrollRef.current.offsetWidth;
       const itemWidth = scrollRef.current.children[0]?.offsetWidth || 0;
-
       const startIdx = Math.floor(scrollLeft / itemWidth);
       const visibleIndices = Array.from(
         { length: visibleCount },
         (_, i) => startIdx + i
-      ).filter((i) => i < imagelist.length);
+      ).filter((i) => i < currentList.length);
 
       if (visibleIndices.length > 0) {
         const randomVisibleIndex =
@@ -156,7 +156,35 @@ const Chickenroad = () => {
       clearInterval(interval);
       scrollRef.current?.removeEventListener('scroll', updateFireIndex);
     };
-  }, [visibleCount, imagelist.length]);
+  }, [visibleCount, currentList.length]);
+
+  useEffect(() => {
+    const updateFireSmallIndex = () => {
+      if (!scrollRef.current) return;
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const containerWidth = scrollRef.current.offsetWidth;
+      const itemWidth = scrollRef.current.children[0]?.offsetWidth || 0;
+      const startIdx = Math.floor(scrollLeft / itemWidth);
+      const visibleIndices = Array.from(
+        { length: visibleCount },
+        (_, i) => startIdx + i
+      ).filter((i) => i < currentList.length);
+
+      if (visibleIndices.length > 0) {
+        const randomVisibleIndex =
+          visibleIndices[Math.ceil(Math.random() * visibleIndices.length)];
+        setSmallFireIndex(randomVisibleIndex);
+      }
+    };
+
+    const interval = setInterval(updateFireSmallIndex, 1000);
+    scrollRef.current?.addEventListener('scroll', updateFireSmallIndex);
+
+    return () => {
+      clearInterval(interval);
+      scrollRef.current?.removeEventListener('scroll', updateFireSmallIndex);
+    };
+  }, [visibleCount, currentList.length]);
 
   const handleResetGame = () => {
     setIsBurned(false);
@@ -174,7 +202,7 @@ const Chickenroad = () => {
           block: 'nearest',
         });
       }
-    }, 100);
+    }, 500);
   };
 
   useEffect(() => {
@@ -185,14 +213,14 @@ const Chickenroad = () => {
         setChickenIndex(-1);
         setTimeout(() => {
           handleResetGame();
-        }, 500);
-      }, 500);
+        }, 1000);
+      }, 1000);
     }
   }, [chickenIndex, fireIndex]);
 
   useEffect(() => {
     const isSafeWin =
-      chickenIndex === imagelist.length - 1 && chickenIndex !== fireIndex;
+      chickenIndex === currentList.length - 1 && chickenIndex !== fireIndex;
     if (isSafeWin) {
       setTimeout(() => {
         handleResetGame();
@@ -249,10 +277,11 @@ const Chickenroad = () => {
   const wallet_amount_data = wallet_amount?.data?.data || 0;
 
   return (
-    <Container className="h-full overflow-auto bg-[#05012B]">
+    <Container className="h-full  bg-[#05012B]">
       <CustomCircularProgress isLoading={isLoading} />
       <audio ref={audioRefBg} src={musicFile3} />
       <audio ref={audioRefHen} src={musicFile4} />
+
       <div className="bg-[#4E5164] p-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={yellowimg} alt="egg" className="h-9 w-9" />
@@ -260,8 +289,8 @@ const Chickenroad = () => {
             CHICKEN <br /> ROAD
           </p>
         </div>
-        <div className="flex items-center bg-[#4E5164] rounded-md px-4 py-1">
-          <p className="text-white text-sm font-medium mr-2">
+        <div className="flex items-center bg-gray-500 rounded-md px-12 py-2">
+          <p className="text-white text-base font-medium mr-2">
             {Number(wallet_amount_data?.wallet || 0) +
               Number(wallet_amount_data?.winning || 0)}
           </p>
@@ -583,184 +612,199 @@ const Chickenroad = () => {
           </Box>
         </Menu>
       </div>
-      <div
-        className="grid grid-cols-[40%_60%] overflow-x-auto"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        <div className="flex flex-col items-center gap-3 text-white bg-[#2E324D]">
-          <div className="flex items-center bg-[#2E324D]">
-            <p className="text-[#8CA6FF] text-center font-semibold px-1">
-              Live wins
-            </p>
-            <div className="w-2 h-2 bg-green-500 text-center rounded-full px-1"></div>
-            <p className="text-[#8CA6FF] font-semibold text-sm pl-1">
-              Online: 11242
-            </p>
-          </div>
-          <div className="flex items-center top-4 left-4 z-50 animate-slideIn justify-evenly w-full p-1 gap-2 bg-[#4B5382] rounded">
-            <div className="relative w-7 h-7">
-              <div className="absolute inset-0 rounded-full bg-red-400 opacity-80"></div>
-              <PersonIcon
-                className="text-red-700 relative z-10"
-                fontSize="large"
-              />
-              <img
-                src={gbflag}
-                alt="flag"
-                className="w-5 h-3 absolute -bottom-1 -right-2 rounded-sm z-20"
-              />
+      <div>
+        <div
+          className="grid grid-cols-[40%_60%] overflow-x-scroll !overflow-y-hidden"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="flex flex-col items-center gap-3 text-white bg-[#2E324D]">
+            <div className="flex items-center bg-[#2E324D]">
+              <p className="text-[#8CA6FF] text-center font-semibold px-1">
+                Live wins
+              </p>
+              <div className="w-2 h-2 bg-green-500 text-center rounded-full px-1"></div>
+              <p className="text-[#8CA6FF] font-semibold text-sm pl-1">
+                Online: 11242
+              </p>
             </div>
-            <p className="text-white text-sm">228690</p>
-            <p className="text-green-400 text-sm font-medium">+£301.20</p>
-          </div>
+            <div className="flex items-center top-4 left-4 z-50 animate-slideFade justify-evenly w-full p-1 gap-2 bg-[#4B5382] rounded">
+              <div className="relative w-7 h-7">
+                <div className="absolute inset-0 rounded-full bg-red-400 opacity-80"></div>
+                <PersonIcon
+                  className="text-red-700 relative z-10"
+                  fontSize="large"
+                />
+                <img
+                  src={gbflag}
+                  alt="flag"
+                  className="w-5 h-3 absolute -bottom-1 -right-2 rounded-sm z-20"
+                />
+              </div>
+              <p className="text-white text-sm">228690</p>
+              <p className="text-green-400 text-sm font-semibold">+£301.20</p>
+            </div>
 
-          <div className="flex items-center justify-end mt-[4rem]">
-            <div className="relative w-28 h-60">
-              <div className="absolute inset-0 -mx-1 -mt-1 rounded-t-full bg-[#333652] border-[4px] border-[#202538]"></div>
-              <div className="absolute top-1 left-1 right-1 bottom-1 rounded-t-full bg-[#15182C] border-[2px] border-[#1E223F] z-10"></div>
-              {!gameStarted && (
-                <div className="absolute bottom-0 left-0 right-0 z-20 flex justify-center ">
-                  <img
-                    src={chicken}
-                    alt="chicken"
-                    className="h-[10rem] w-[9.5rem] object-cover transition-all duration-700"
-                  />
-                </div>
-              )}
+            <div className="flex items-center justify-end mt-[6rem]">
+              <div className="relative w-28 h-60">
+                <div className="absolute inset-0 -mx-1 -mt-1 rounded-t-full bg-[#333652] border-[4px] border-[#202538]"></div>
+                <div className="absolute top-1 left-1 right-1 bottom-1 rounded-t-full bg-[#15182C] border-[2px] border-[#1E223F] z-10"></div>
+                {!gameStarted && (
+                  <div className="absolute -bottom-5 left-0 right-0 z-20 flex justify-center ">
+                    <img
+                      src={chicken}
+                      alt="chicken"
+                      className="h-[210px] w-[9.5rem]  object-cover transition-all duration-1000"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div ref={scrollRef} className="flex  scroll-smooth">
-          {currentList?.map((src, index) => {
-            const isLast = index === currentList.length - 1;
-            const isVisited = visitedIndexes.includes(index);
-            const isPrevVisited = visitedIndexes.includes(index + 1);
-            const isBurningIndex = isBurned && chickenIndex === index;
-            const coinImage = isBurningIndex
-              ? redcoin
-              : isPrevVisited
-              ? chickencoin
-              : isVisited
-              ? currentGreenList[index]
-              : currentList[index];
-            if (isLast) {
+          <div ref={scrollRef} className="flex  ">
+            {currentList?.map((src, index) => {
+              const isLast = index === currentList.length - 1;
+              const isVisited = visitedIndexes.includes(index);
+              const isPrevVisited = visitedIndexes.includes(index + 1);
+              const isBurningIndex = isBurned && chickenIndex === index;
+              const coinImage = isBurningIndex
+                ? redcoin
+                : isPrevVisited
+                ? chickencoin
+                : isVisited
+                ? currentGreenList[index]
+                : currentList[index];
+              if (isLast) {
+                return (
+                  <React.Fragment key={index}>
+                    <div className="flex !bg-[#3E4464] ">
+                      <div className="flex flex-col px-[3rem] pt-[5rem] items-center relative bg-[#3E4464] ">
+                        <div className="flex flex-col gap-4 mt-2">
+                          <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden ml-4 "></div>
+                        </div>
+                        <div className="mt-auto relative w-[112px] h-[225px] flex items-center justify-center">
+                          <div
+                            className={`absolute inset-0 -mt-1 rounded-t-full border-[4px] border-[#4C5580] bg-[#2D324D]  z-10 flex items-center justify-center`}
+                          >
+                            <img
+                              key={index}
+                              src={coinImage}
+                              alt=""
+                              className="object-center -mt-12 rounded-full w-[70px] h-[80px] animate-bounce"
+                              style={{ animationDuration: '10.0s' }}
+                            />
+                          </div>
+                          <div className="absolute bottom-0 left-3 right-3 h-[6px] bg-[#71759C] rounded-b-full z-30"></div>
+                          <div className="absolute -bottom-1 z-20 flex flex-col items-center">
+                            <div className="w-[80px] h-[6px] bg-[#E0DDC6] rounded-t-md" />
+                            <div
+                              className="w-[80px] h-[50px] bg-[#C7C4B2] -mt-1"
+                              style={{
+                                clipPath: `polygon(
+                                      10% 0%, 90% 0%,  
+                                        80% 20%,         
+                                        65% 80%,          
+                                         35% 80%,
+                                          20% 20%,
+                                            10% 0%
+                                            )`,
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        {smallFireIndex === index && (
+                          <img
+                            src={smallfire}
+                            alt="smallfire"
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80px] h-[70px] z-50"
+                          />
+                        )}
+                        {fireIndex === index && (
+                          <img
+                            src={fireGif}
+                            alt="fire"
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[70px] z-50"
+                          />
+                        )}
+                      </div>
+                      <img
+                        src={wall}
+                        alt="wall"
+                        className="!h-[26rem] w-50 bottom-0 !bg-[#2D324D]"
+                      />
+                    </div>
+                  </React.Fragment>
+                );
+              }
               return (
                 <React.Fragment key={index}>
-                  <div className="flex flex-col px-[3rem] pt-[5rem] items-center relative bg-[#3E4464] ">
+                  <div
+                    key={index}
+                    className="flex flex-col  px-[1.1rem] pt-[3rem] items-center relative bg-[#3E4464]"
+                  >
                     <div className="flex flex-col gap-4 mt-2">
-                      <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden ml-4 "></div>
+                      <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden ml-4"></div>
+                      <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden mr-6"></div>
                     </div>
-                    <div className="mt-auto relative w-[112px] h-[225px] flex items-center justify-center">
-                      <div
-                        className={`absolute inset-0 -mt-1 rounded-t-full border-[4px] border-[#4C5580] bg-[#2D324D]  z-10 flex items-center justify-center`}
-                      >
-                        <img
-                          key={index}
-                          src={coinImage}
-                          alt={`img-${index}`}
-                          className="object-center -mt-12 rounded-full w-[70px] h-[80px] animate-bounce"
-                          style={{ animationDuration: '10.0s' }}
-                        />
-                      </div>
-                      <div className="absolute bottom-0 left-3 right-3 h-[6px] bg-[#71759C] rounded-b-full z-30"></div>
-                      {chickenIndex === index - 1 ? (
-                        <div className="absolute -bottom-1 z-20 flex flex-col items-center">
-                          <div className="w-[80px] h-[6px] bg-[#E0DDC6] rounded-t-md " />
+                    <img
+                      src={coinImage}
+                      alt=""
+                      className="object-cover mt-4 max-w-[100px]"
+                    />
+                    <div className="w-[3rem] h-[2rem] mt-4 mb-4 mr-6 rounded-lg bg-[#363B57] overflow-hidden"></div>
+                    <div className="mt-auto relative w-[74px] h-[62px]">
+                      <div className="absolute inset-0 -mx-1 -mt-1 rounded-t-full bg-[#333652] border-[4px] border-[#202538]"></div>
+                      <div className="absolute top-2 left-1 right-1 bottom-1 rounded-t-full bg-[#363B57] z-4"></div>
+                      <div className="absolute  z-20 left-1 right-1 flex justify-between items-end px-2 h-full">
+                        {[...Array(7)].map((_, i) => (
                           <div
-                            className="w-[80px] h-[50px] bg-[#C7C4B2] -mt-1"
-                            style={{
-                              clipPath: `polygon(
-                            10% 0%, 90% 0%,  
-                             80% 20%,         
-                            65% 80%,          
-                            35% 80%,
-                            20% 20%,
-                            10% 0%
-                          )`,
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div className="absolute -bottom-1 z-20 flex flex-col items-center">
-                          <img
-                            src={chicken}
-                            alt="chicken"
-                            className="h-[6rem] w-[9.0rem] animate-bounce object-cover transition-all duration-700"
-                          />
-                        </div>
-                      )}
+                            key={i}
+                            className="w-[6px] bg-[#1C1F3A] rounded-full relative "
+                            style={{ height: `${36 + (i % 3) * 10}px` }}
+                          >
+                            {chickenIndex === index && i === 3 && (
+                              <>
+                                <img
+                                  src={isBurned ? burnedChicken : chicken}
+                                  alt="chicken"
+                                  className={`absolute -top-[10rem] left-1/2 -translate-x-1/2 w-[55px] h-[70px] z-50 min-w-[155px] min-h-[220px]  ${
+                                    isBurned
+                                      ? 'min-w-[50px] min-h-[110px] -top-[3.8rem]'
+                                      : ''
+                                  }`}
+                                />
+                                <div className="absolute top-[0.2rem] -translate-x-1/2 w-[120px] h-[40px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,191,0,0.4),transparent)] blur-[1px] z-0"></div>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 h-[6px] bg-[#71759C] rounded-b-full z-30"></div>
                     </div>
+                    {smallFireIndex === index && (
+                      <img
+                        src={smallfire}
+                        alt="smallfire"
+                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80px] h-[70px] z-50"
+                      />
+                    )}
                     {fireIndex === index && (
                       <img
                         src={fireGif}
                         alt="fire"
-                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[70px] z-50"
+                        className="absolute -bottom-3 left-1/2 -translate-x-1/2 !w-[120px] !h-[380px] z-50"
                       />
                     )}
+                    <div className="absolute top-0 bottom-0 right-0 w-[4px] bg-[radial-gradient(circle,_white_4px,_transparent_4px)] bg-repeat-y bg-[length:100%_20px] opacity-70"></div>
                   </div>
                 </React.Fragment>
               );
-            }
-            return (
-              <React.Fragment key={index}>
-                <div
-                  key={index}
-                  className="flex flex-col  px-[1.1rem] pt-[3rem] items-center relative bg-[#3E4464]"
-                >
-                  <div className="flex flex-col gap-4 mt-2">
-                    <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden ml-4"></div>
-                    <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden mr-6"></div>
-                  </div>
-                  <img
-                    src={coinImage}
-                    alt={`img-${index}`}
-                    className="object-cover mt-4 max-w-[100px]"
-                  />
-                  <div className="w-[3rem] h-[2rem] mt-4 mb-4 mr-6 rounded-lg bg-[#363B57] overflow-hidden"></div>
-                  <div className="mt-auto relative w-[74px] h-[62px]">
-                    <div className="absolute inset-0 -mx-1 -mt-1 rounded-t-full bg-[#333652] border-[4px] border-[#202538]"></div>
-                    <div className="absolute top-2 left-1 right-1 bottom-1 rounded-t-full bg-[#363B57] z-4"></div>
-                    <div className="absolute  z-20 left-1 right-1 flex justify-between items-end px-2 h-full">
-                      {[...Array(7)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-[6px] bg-[#1C1F3A] rounded-full relative "
-                          style={{ height: `${36 + (i % 3) * 10}px` }}
-                        >
-                          {chickenIndex === index && i === 3 && (
-                            <>
-                              <img
-                                src={isBurned ? burnedChicken : chicken}
-                                alt="chicken"
-                                className={`absolute -top-[6.2rem] left-1/2 -translate-x-1/2 w-[75px] h-[70px] z-50 min-w-[235px] min-h-[138px]  ${
-                                  isBurned
-                                    ? 'min-w-[100px] min-h-[130px] -top-[5.2rem]'
-                                    : ''
-                                }`}
-                              />
-                              <div className="absolute top-[0.2rem] -translate-x-1/2 w-[120px] h-[40px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,191,0,0.4),transparent)] blur-[1px] z-0"></div>
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-[6px] bg-[#71759C] rounded-b-full z-30"></div>
-                  </div>
-                  {fireIndex === index && (
-                    <img
-                      src={fireGif}
-                      alt="fire"
-                      className="absolute -bottom-3 left-1/2 -translate-x-1/2 !w-[120px] !h-[380px] z-50"
-                    />
-                  )}
-                  <div className="absolute top-0 bottom-0 right-0 w-[4px] bg-[radial-gradient(circle,_white_4px,_transparent_4px)] bg-repeat-y bg-[length:100%_20px] opacity-70"></div>
-                </div>
-              </React.Fragment>
-            );
-          })}
+            })}
+          </div>
         </div>
       </div>
-      <img src={src} alt="" className="w-[100%] h-7 pt-1" />
+
+      <img src={src} alt="" className="w-[100%] h-7" />
       <Footer
         gameStarted={gameStarted}
         handleResetGame={handleResetGame}
