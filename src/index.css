@@ -1367,3 +1367,17 @@
 .animate-slideFade {
   animation: slideFade 4s ease-in-out infinite;
 }
+
+@keyframes glow-move {
+  0% {
+    background-position: 100% 90%;
+  }
+  100% {
+    background-position: 0% 90%;
+  }
+}
+
+.animate-glow-move {
+  animation: glow-move 2s ease-in-out infinite alternate;
+  background-size: 200% 200%;
+}

@@ -48,7 +48,7 @@ import Gamerule from './Gamerule';
 import MyBetHistory from './MyBetHistory';
 import Instruction from './Instruction';
 import Footer from './Footer';
-import redcoin from '../../assets/images/chickenRoad/redcoin.png';
+import redcoin from '../../assets/images/chickenRoad/coinred.png';
 import wall from '../../assets/images/chickenRoad/wall.png';
 import src from '../../assets/images/chickenRoad/src.png';
 import musicFile3 from '../../assets/images/chickenRoad/bgmusic.mp3';
@@ -59,6 +59,7 @@ import {
   isEnableSoundFunction,
 } from '../../redux/slices/counterSlice';
 import { useQuery, useQueryClient } from 'react-query';
+import logo from '../../assets/images/logo.png';
 import { apiConnectorGet } from '../../services/apiconnector';
 import { endpoint } from '../../services/urls';
 import CustomCircularProgress from '../../shared/loder/CustomCircularProgress';
@@ -86,6 +87,7 @@ const Chickenroad = () => {
   const dispatch = useDispatch();
   const audioRefBg = useRef(null);
   const audioRefHen = useRef(null);
+  const doorRef = useRef(null);
 
   const currentList =
     selected === 'Easy'
@@ -136,7 +138,7 @@ const Chickenroad = () => {
       const scrollLeft = scrollRef.current.scrollLeft;
       const containerWidth = scrollRef.current.offsetWidth;
       const itemWidth = scrollRef.current.children[0]?.offsetWidth || 0;
-      const startIdx = Math.floor(scrollLeft / itemWidth);
+      const startIdx = Math.ceil(scrollLeft / itemWidth);
       const visibleIndices = Array.from(
         { length: visibleCount },
         (_, i) => startIdx + i
@@ -164,7 +166,7 @@ const Chickenroad = () => {
       const scrollLeft = scrollRef.current.scrollLeft;
       const containerWidth = scrollRef.current.offsetWidth;
       const itemWidth = scrollRef.current.children[0]?.offsetWidth || 0;
-      const startIdx = Math.floor(scrollLeft / itemWidth);
+      const startIdx = Math.ceil(scrollLeft / itemWidth);
       const visibleIndices = Array.from(
         { length: visibleCount },
         (_, i) => startIdx + i
@@ -410,8 +412,8 @@ const Chickenroad = () => {
                         alt="avatar"
                         style={{
                           borderRadius: '50%',
-                          width: '64px',
-                          height: '64px',
+                          width: '70px',
+                          // height: '64px',
                         }}
                       />
                       {selectedAvatar === avt && (
@@ -608,36 +610,37 @@ const Chickenroad = () => {
             <Typography variant="caption" color="#aaa">
               Powered by
             </Typography>
-            <img src={inoutlogo} alt="logo" className="w-10 h-10" />
+            <img src={logo} alt="logo" className="w-24" />
           </Box>
         </Menu>
       </div>
       <div>
         <div
-          className="grid grid-cols-[40%_60%] overflow-x-scroll !overflow-y-hidden"
+          className="grid grid-cols-[45%_55%] overflow-x-scroll !overflow-y-hidden"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           <div className="flex flex-col items-center gap-3 text-white bg-[#2E324D]">
-            <div className="flex items-center bg-[#2E324D]">
-              <p className="text-[#8CA6FF] text-center font-semibold px-1">
+            <div className="flex items-center bg-[#2E324D] whitespace-nowrap gap-1 p-2">
+              <p className="text-[#8CA6FF] font-semibold text-xs text-center ">
                 Live wins
               </p>
-              <div className="w-2 h-2 bg-green-500 text-center rounded-full px-1"></div>
-              <p className="text-[#8CA6FF] font-semibold text-sm pl-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <p className="text-[#8CA6FF] font-semibold text-xs">
                 Online: 11242
               </p>
             </div>
-            <div className="flex items-center top-4 left-4 z-50 animate-slideFade justify-evenly w-full p-1 gap-2 bg-[#4B5382] rounded">
-              <div className="relative w-7 h-7">
-                <div className="absolute inset-0 rounded-full bg-red-400 opacity-80"></div>
-                <PersonIcon
-                  className="text-red-700 relative z-10"
-                  fontSize="large"
-                />
+            <div className="flex items-center top-4 left-4 z-50 animate-slideFade justify-evenly w-full p-1 gap-1 bg-[#4B5382] rounded animate-slideFade overflow-hidden whitespace-nowrap flex-nowrap">
+              <div className="relative w-6 h-6">
+                <div className="absolute inset-0 rounded-full flex items-center justify-center z-10 bg-red-400 opacity-80">
+                  <PersonIcon
+                    className="text-red-700 relative z-10"
+                    fontSize="medium"
+                  />
+                </div>
                 <img
                   src={gbflag}
                   alt="flag"
-                  className="w-5 h-3 absolute -bottom-1 -right-2 rounded-sm z-20"
+                  className="w-4 h-3 absolute -bottom-1 -right-2 rounded-sm z-20"
                 />
               </div>
               <p className="text-white text-sm">228690</p>
@@ -681,7 +684,7 @@ const Chickenroad = () => {
                         <div className="flex flex-col gap-4 mt-2">
                           <div className="w-[3rem] h-[2rem] rounded-lg bg-[#363B57] overflow-hidden ml-4 "></div>
                         </div>
-                        <div className="mt-auto relative w-[112px] h-[225px] flex items-center justify-center">
+                        <div className="mt-auto relative w-[112px] h-[280px] flex items-center justify-center">
                           <div
                             className={`absolute inset-0 -mt-1 rounded-t-full border-[4px] border-[#4C5580] bg-[#2D324D]  z-10 flex items-center justify-center`}
                           >
@@ -693,11 +696,22 @@ const Chickenroad = () => {
                               style={{ animationDuration: '10.0s' }}
                             />
                           </div>
+                          <div
+                            className="absolute -bottom-[0rem] z-10 w-[140px] h-[200px] rounded-t-full"
+                            style={{
+                              background:
+                                'linear-gradient(0deg, rgba(255, 236, 100, 0.4) 0%, rgba(255, 236, 100, 0.05) 80%, transparent 100%)',
+                              clipPath:
+                                'polygon(0% 0%, 100% 0%, 70% 100%, 30% 100%)',
+                              filter: 'blur(4px)',
+                            }}
+                          ></div>
                           <div className="absolute bottom-0 left-3 right-3 h-[6px] bg-[#71759C] rounded-b-full z-30"></div>
+
                           <div className="absolute -bottom-1 z-20 flex flex-col items-center">
-                            <div className="w-[80px] h-[6px] bg-[#E0DDC6] rounded-t-md" />
+                            <div className="w-[80px] h-[6px] bg-[#E0DDC6] rounded-t-md z-20" />
                             <div
-                              className="w-[80px] h-[50px] bg-[#C7C4B2] -mt-1"
+                              className="w-[80px] h-[50px] bg-[#C7C4B2] -mt-1 z-20"
                               style={{
                                 clipPath: `polygon(
                                       10% 0%, 90% 0%,  
@@ -730,7 +744,7 @@ const Chickenroad = () => {
                       <img
                         src={wall}
                         alt="wall"
-                        className="!h-[26rem] w-50 bottom-0 !bg-[#2D324D]"
+                        className="!h-[26.7rem] w-50 bottom-0 "
                       />
                     </div>
                   </React.Fragment>
@@ -767,13 +781,22 @@ const Chickenroad = () => {
                                 <img
                                   src={isBurned ? burnedChicken : chicken}
                                   alt="chicken"
-                                  className={`absolute -top-[10rem] left-1/2 -translate-x-1/2 w-[55px] h-[70px] z-50 min-w-[155px] min-h-[220px]  ${
-                                    isBurned
-                                      ? 'min-w-[50px] min-h-[110px] -top-[3.8rem]'
-                                      : ''
-                                  }`}
+                                  className={`absolute left-1/2 -translate-x-1/2 z-20 transition-all duration-300 ease-in-out 
+                            ${
+                              isBurned
+                                ? 'min-w-[75px] min-h-[180px] -top-[7.5rem]'
+                                : 'min-w-[155px] min-h-[220px] -top-[10rem]'
+                            }`}
                                 />
-                                <div className="absolute top-[0.2rem] -translate-x-1/2 w-[120px] h-[40px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,191,0,0.4),transparent)] blur-[1px] z-0"></div>
+
+                                <div
+                                  className="absolute bottom-[0.2rem]  left-1/2 -translate-x-1/2  z-0 w-[140px] h-[200px] rounded-t-full animate-glow-move pointer-events-none"
+                                  style={{
+                                    background:
+                                      'radial-gradient(circle at 80% 90%, rgba(255, 236, 100, 0.6) 0%, rgba(255, 236, 100, 0.1) 70%, transparent 100%)',
+                                    filter: 'blur(8px)',
+                                  }}
+                                ></div>
                               </>
                             )}
                           </div>

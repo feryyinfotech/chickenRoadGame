@@ -108,7 +108,7 @@ function Lottery() {
           <Box
             component="img"
             src={lotterycategory5}
-            className="!w-60 !h-28 !rounded-md"
+            className="!w-48 !h-28 !rounded-md"
           ></Box>
         </Box>
       </Box>
