@@ -31,7 +31,6 @@ import {
   hardgreenimagelist,
   hdgreenimagelist,
 } from './chicken road images';
-import inoutlogo from '../../assets/images/chickenRoad/inoutlogo.svg';
 import burnedChicken from '../../assets/images/burnedChicken.png';
 import PersonIcon from '@mui/icons-material/Person';
 import fireGif from '../../assets/images/chickenRoad/fireGif.gif';
@@ -87,7 +86,6 @@ const Chickenroad = () => {
   const dispatch = useDispatch();
   const audioRefBg = useRef(null);
   const audioRefHen = useRef(null);
-  const doorRef = useRef(null);
 
   const currentList =
     selected === 'Easy'
@@ -229,11 +227,6 @@ const Chickenroad = () => {
       }, 1500);
     }
   }, [chickenIndex, fireIndex]);
-
-  const handlePlay = () => {
-    setChickenIndex(0);
-    setGameStarted(true);
-  };
 
   useEffect(() => {
     handleOpenFun();
@@ -644,7 +637,7 @@ const Chickenroad = () => {
                 />
               </div>
               <p className="text-white text-sm">228690</p>
-              <p className="text-green-400 text-sm font-semibold">+£301.20</p>
+              <p className="text-green-400 text-sm font-semibold">+£301.2000</p>
             </div>
 
             <div className="flex items-center justify-end mt-[6rem]">
